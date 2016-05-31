@@ -1,20 +1,20 @@
 {
 	"manifest_version":2,
-	"name":"Bookmarks List",
-	"version":"1.0.0",
+	"name":"Bookmarkie",
+	"version":"0.0.1",
 	"permissions": [ 
 		"bookmarks"
 	],
-	"description":"Bookmarks List",
+	"description":"Lists Bookmarks",
 	"icons":{
-		//"16": "images/favicon-32x32.ico",
-        //"48": "images/favicon.png",
-    	//"128": "images/apple-touch-icon-120x120-precomposed.png"
+		"16": "images/bookmarkie32.png",
+        "48": "images/bookmarkie48.png",
+    	"128": "images/bookmarkie128.png"
 	},
 	
 	"browser_action":{
-		//"default_icon":"images/favicon-32x32.ico",
-		"default_title":"Bookmarks List",
+		"default_icon":"images/bookmarkie32.png",
+		"default_title":"Bookmarkie",
 		"default_popup":"popup.html"
 	}
 
