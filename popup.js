@@ -42,7 +42,7 @@ function openBookmarks(){
         if(inputElements[i].checked)
             checkedURLs.push(inputElements[i].value);
     }
-    console.log(checkedURLs);
+    //console.log(checkedURLs);
     
     // Open URLs according to user selecion
     var selection  = document.getElementsByTagName('select')[0].value;
