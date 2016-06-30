@@ -43,13 +43,14 @@
     <div id="footer">
         <div>Open in new 
             <select>
-                <option>tab(s)</option>
-                <option>window</option>
-                <option>incognito</option>
+                <option value='tab'>tab(s)</option>
+                <option value='window'>window</option>
+                <option value='incognito'>incognito</option>
             </select>
         </div>
-        <button onclick="openBookmarks()">Open</button>
-        <button onclick="deletebookmarks()">Delete</button>
+        <button id="btnOpenBookmarks">Open</button>
+        <button id="btnDeleteBookmarks">Delete</button>
+        <button id="btnDeselectBookmarks">Unselect All</button>
     </div>
 </body>
 </html>

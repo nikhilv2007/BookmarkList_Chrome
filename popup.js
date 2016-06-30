@@ -30,18 +30,60 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li><input type='checkbox'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a></li>";
+		popupContent += "<li><input type='checkbox' value='"+bookmarkFolder.url+"'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a></li>";
 	}
 }
 
 function openBookmarks(){
+    // Get list of URLs checked
+    var checkedURLs = [];
+    var inputElements = document.getElementsByTagName('input');
+    for(var i=0; i< inputElements.length; i++){
+        if(inputElements[i].checked)
+            checkedURLs.push(inputElements[i].value);
+    }
+    console.log(checkedURLs);
     
+    // Open URLs according to user selecion
+    var selection  = document.getElementsByTagName('select')[0].value;
+    switch(selection){
+        case "tab":
+            for (var i in checkedURLs){
+                chrome.tabs.create({url: checkedURLs[i], active: false});
+            }
+            break;
+        case "window":
+            chrome.windows.create({url: checkedURLs, state: "maximized"});
+            break;
+        case "incognito":
+            chrome.windows.create({url: checkedURLs, state: "maximized", incognito: true});
+            break;
+    }
 }
 
 function deleteBookmarks(){
+    alert("Are you sure deleting bookmark(s)");
     
+}
+
+function deselectBookmarks(){
+    var inputElements = document.getElementsByTagName('input');
+    for(var i=0; i< inputElements.length; i++){
+        if(inputElements[i].checked)
+            inputElements[i].checked = !inputElements[i].checked;
+    }
 }
 
 function editBookmark(){
     // Edit name, URL values
 }
+
+window.addEventListener('load', function(evt) {
+
+   	document.getElementById('btnOpenBookmarks').addEventListener('click', openBookmarks);
+   	
+   	document.getElementById('btnDeleteBookmarks').addEventListener('click', deleteBookmarks);
+    
+    document.getElementById('btnDeselectBookmarks').addEventListener('click', deselectBookmarks);
+   	
+});
