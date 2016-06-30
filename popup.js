@@ -1,23 +1,3 @@
-/*
-abc ="";
-chrome.bookmarks.getTree(function (bookmarkTreeNode){
-	abc =bookmarkTreeNode;
-	//getBookmarks(bookmarkTreeNode[0]);
-});
-function getBookmarks(bookmarkFolder){
-	if (bookmarkFolder.children != undefined){
-		
-		console.log(bookmarkFolder.title);
-				
-		for(var i=0;i<bookmarkFolder.children.length;i++){
-			getBookmarks(bookmarkFolder.children[i]);		
-		}		
-	}
-	else if(bookmarkFolder.url != undefined){
-		console.log(bookmarkFolder.title +" ---" +bookmarkFolder.url);
-	}	
-}
-*/
 
 var popupContent = "";
 document.addEventListener('DOMContentLoaded', function () {
@@ -25,8 +5,11 @@ document.addEventListener('DOMContentLoaded', function () {
   	
 	  	getBookmarks(bookmarkTreeNode[0]);
 	  	  	
+        // Remove root folder
+        popupContent = popupContent.slice(popupContent.indexOf("/>")+2, popupContent.lastIndexOf("</ul>")) +"<br>"
 	  	document.getElementById('content').innerHTML = popupContent;
 	  	//console.log(popupContent);
+        
 	  	popupContent = "";
   	});
 });
@@ -35,10 +18,10 @@ function getBookmarks(bookmarkFolder){
 	if (bookmarkFolder.children != undefined){
 		
 		if (bookmarkFolder.children.length == 0) {
-			popupContent += "<ul>" +bookmarkFolder.title+ "</ul>";
+			popupContent += "<ul><img src='images/Folder-icon.png'/> " +bookmarkFolder.title+ "</ul>";
 		}
 		else{
-			popupContent += "<ul>" +bookmarkFolder.title;
+			popupContent += "<ul><img src='images/Folder-icon.png'/> " +bookmarkFolder.title;
 			for(var i=0;i<bookmarkFolder.children.length;i++){
 				getBookmarks(bookmarkFolder.children[i]);		
 			}
@@ -47,6 +30,18 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a></li>";
+		popupContent += "<li><input type='checkbox'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a></li>";
 	}
+}
+
+function openBookmarks(){
+    
+}
+
+function deleteBookmarks(){
+    
+}
+
+function editBookmark(){
+    // Edit name, URL values
 }

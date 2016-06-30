@@ -22,9 +22,34 @@
 		text-decoration: underline;
 		opacity: 1;
 	}
+    img{
+        position: relative;
+        top: 3px;
+    }
+      
+    #footer{
+        position: fixed;
+        bottom: 0px;
+        display: inline;
+        background-color: floralwhite;
+    }
+    #footer>div{
+        float:left
+    }
   </style>
 </head>
 <body style="width: 400px; border:5px double #C0C0C0; border-radius: 5px; margin:0px">
-	<div id="content"></div>	
+    <div id="content"></div>
+    <div id="footer">
+        <div>Open in new 
+            <select>
+                <option>tab(s)</option>
+                <option>window</option>
+                <option>incognito</option>
+            </select>
+        </div>
+        <button onclick="openBookmarks()">Open</button>
+        <button onclick="deletebookmarks()">Delete</button>
+    </div>
 </body>
 </html>
