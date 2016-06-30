@@ -30,7 +30,7 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li><input type='checkbox' value='"+bookmarkFolder.url+"'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a></li>";
+		popupContent += "<li><input type='checkbox' data-id='"+bookmarkFolder.id+"' value='"+bookmarkFolder.url+"'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a></li>";
 	}
 }
 
@@ -62,8 +62,15 @@ function openBookmarks(){
 }
 
 function deleteBookmarks(){
-    alert("Are you sure deleting bookmark(s)");
-    
+    if (confirm("Are you sure deleting bookmark(s)")){
+        var inputElements = document.getElementsByTagName('input');
+        for(var i=0; i< inputElements.length; i++){
+            if(inputElements[i].checked)
+                chrome.bookmarks.remove(inputElements[i].getAttribute('data-id'));
+        }
+        // Refresh page
+        location.reload();
+    }
 }
 
 function deselectBookmarks(){
