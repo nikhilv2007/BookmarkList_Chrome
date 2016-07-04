@@ -30,7 +30,7 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a><a title='Delete'><img src='images/delete.png'/></a></li>";
+		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp<a style='display:none' title='Delete'><img src='images/delete.png'/></a></li>";
 	}
 }
 
@@ -102,8 +102,28 @@ function handleClick(event) {
     while (element) {
         if (element.nodeName === "A" && /Delete/.test(element.getAttribute('title'))) {
             // The user clicked on a <a> or clicked on an element inside <a> with title "Delete"
-            deleteBookmark(element.parentElement.getAttribute('data-id'));
-            element.parentElement.parentElement.removeChild(element.parentElement);
+            if (confirm("Confirm delete ?")){
+                deleteBookmark(element.parentElement.getAttribute('data-id'));
+                element.parentElement.parentElement.removeChild(element.parentElement);
+                break;
+            }
+        }
+
+        element = element.parentNode;
+    }
+}
+
+function handleMouseEnter(event) {
+    event = event || window.event;
+    event.target = event.target || event.srcElement;
+
+    var element = event.target;
+    
+    // Climb up the document tree from the target of the event
+    while (element) {
+        if (element.nodeName === "LI") {
+            // The user hovered on a <li> or an element inside <li>
+            element.getElementsByTagName('a')[1].style.display = 'initial';
             break;
         }
 
@@ -111,6 +131,23 @@ function handleClick(event) {
     }
 }
 
+function handleMouseLeave(event) {
+    event = event || window.event;
+    event.target = event.target || event.srcElement;
+
+    var element = event.target;
+    
+    // Climb up the document tree from the target of the event
+    while (element) {
+        if (element.nodeName === "LI") {
+            // The user hovered on a <li> or an element inside <li>
+            element.getElementsByTagName('a')[1].style.display = 'none';
+            break;
+        }
+
+        element = element.parentNode;
+    }
+}
 window.addEventListener('load', function(evt) {
 
    	document.getElementById('btnOpenBookmarks').addEventListener('click', openBookmarks);
@@ -120,4 +157,8 @@ window.addEventListener('load', function(evt) {
     document.getElementById('btnDeselectBookmarks').addEventListener('click', deselectBookmarks);
    	
     document.addEventListener("click", handleClick, false);
+    
+    document.addEventListener("mouseover", handleMouseEnter, false);
+    
+    document.addEventListener("mouseout", handleMouseLeave, false);
 });
