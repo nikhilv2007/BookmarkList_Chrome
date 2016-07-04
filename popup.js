@@ -30,7 +30,7 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp<a style='display:none' title='Delete'><img src='images/delete.png'/></a></li>";
+		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><img src='http://www.google.com/s2/favicons?domain="+bookmarkFolder.url.slice(bookmarkFolder.url.indexOf('//'), bookmarkFolder.url.indexOf('/',bookmarkFolder.url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp<!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
 	}
 }
 
@@ -104,11 +104,15 @@ function handleClick(event) {
             // The user clicked on a <a> or clicked on an element inside <a> with title "Delete"
             if (confirm("Confirm delete ?")){
                 deleteBookmark(element.parentElement.getAttribute('data-id'));
-                element.parentElement.parentElement.removeChild(element.parentElement);
-                break;
+                element.parentElement.parentElement.removeChild(element.parentElement);                
             }
+            break;
         }
-
+        else if (element.nodeName === "A" && /Edit/.test(element.getAttribute('title'))) {
+            // The user clicked on a <a> or clicked on an element inside <a> with title "Edit"
+            alert("Edit this bookmark");
+            break;
+        }
         element = element.parentNode;
     }
 }
@@ -124,6 +128,7 @@ function handleMouseEnter(event) {
         if (element.nodeName === "LI") {
             // The user hovered on a <li> or an element inside <li>
             element.getElementsByTagName('a')[1].style.display = 'initial';
+            //element.getElementsByTagName('a')[2].style.display = 'initial';
             break;
         }
 
@@ -142,6 +147,7 @@ function handleMouseLeave(event) {
         if (element.nodeName === "LI") {
             // The user hovered on a <li> or an element inside <li>
             element.getElementsByTagName('a')[1].style.display = 'none';
+            //element.getElementsByTagName('a')[2].style.display = 'none';
             break;
         }
 
