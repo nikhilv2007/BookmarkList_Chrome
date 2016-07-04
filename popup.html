@@ -1,57 +1,65 @@
 <html>
-<head>
-  <script src="popup.js"></script>
-  <style>
-  	 ul {
-	    list-style: none;
-	    padding-left:0.5em;
-	}
-	
-	li { 
-	    padding-left:0.5em;
-	    border-radius: 5px;
-	}
-    
-	a{
-		text-decoration:none;
-		color: blue;
-		opacity: 0.7;
-	}
-	
-	a:hover{
-		text-decoration: underline;
-		opacity: 1;
-	}
-    img{
-        position: relative;
-        top: 3px;
-    }
-      
-    #footer{
-        position: fixed;
-        bottom: 0px;
-        display: inline;
-        background-color:azure;
-        width: 100%;
-    }
-    #footer>div{
-        float:left
-    }
-  </style>
-</head>
-<body style="width: 400px; border:5px double #C0C0C0; border-radius: 5px; margin:0px">
-    <div id="content"></div>
-    <div id="footer">
-        <div>Open in new 
-            <select>
-                <option value='tab'>tab(s)</option>
-                <option value='window'>window</option>
-                <option value='incognito'>incognito</option>
-            </select>
+    <head>
+        <script src="popup.js"></script>
+        <style>
+            body{
+                width: 400px;
+                border:5px double #C0C0C0;
+                border-radius: 5px;
+                margin:0px
+            }
+            
+            ul {
+                list-style: none;
+                padding-left:0.5em;
+            }
+
+            li { 
+                padding-left:0.5em;
+                border-radius: 5px;
+            }
+
+            a{
+                text-decoration:none;
+                color: blue;
+                opacity: 0.7;
+            }
+
+            a:hover{
+                text-decoration: underline;
+                opacity: 1;
+            }
+            
+            img{
+                position: relative;
+                top: 3px;
+            }
+
+            #footer{
+                position: fixed;
+                bottom: 0px;
+                display: inline;
+                background-color:azure;
+                width: 100%;
+            }
+            #footer>div{
+                float:left
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content"></div>
+        <div id="footer">
+            <div>Open in new 
+                <select>
+                    <option value='tab'>tab(s)</option>
+                    <option value='window'>window</option>
+                    <option value='incognito'>incognito</option>
+                </select>
+            </div>
+            <button id="btnOpenBookmarks">Open</button>
+            <button id="btnDeleteBookmarks">Delete</button>
+            <button id="btnDeselectBookmarks">Unselect All</button>
         </div>
-        <button id="btnOpenBookmarks">Open</button>
-        <button id="btnDeleteBookmarks">Delete</button>
-        <button id="btnDeselectBookmarks">Unselect All</button>
-    </div>
-</body>
+    </body>
 </html>
