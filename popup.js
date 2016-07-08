@@ -30,7 +30,7 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><img src='http://www.google.com/s2/favicons?domain="+bookmarkFolder.url.slice(bookmarkFolder.url.indexOf('//'), bookmarkFolder.url.indexOf('/',bookmarkFolder.url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a target='_blank' href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp<!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
+		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><img src='http://www.google.com/s2/favicons?domain="+bookmarkFolder.url.slice(bookmarkFolder.url.indexOf('//'), bookmarkFolder.url.indexOf('/',bookmarkFolder.url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp<!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
 	}
 }
 
@@ -112,6 +112,10 @@ function handleClick(event) {
             // The user clicked on a <a> or clicked on an element inside <a> with title "Edit"
             alert("Edit this bookmark");
             break;
+        }
+        else if (element.nodeName === "A"){
+            // Open in new tab; Clicked on bookmark link
+            chrome.tabs.create({url: element.getAttribute('href'), active: false});
         }
         element = element.parentNode;
     }
