@@ -1,5 +1,5 @@
 
-var popupContent = "";
+var popupContent = "", copyURL = "";
 document.addEventListener('DOMContentLoaded', function () {
   	chrome.bookmarks.getTree(function (bookmarkTreeNode){
   	
@@ -30,7 +30,7 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><img src='http://www.google.com/s2/favicons?domain="+bookmarkFolder.url.slice(bookmarkFolder.url.indexOf('//'), bookmarkFolder.url.indexOf('/',bookmarkFolder.url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp<!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
+		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><img src='http://www.google.com/s2/favicons?domain="+bookmarkFolder.url.slice(bookmarkFolder.url.indexOf('//'), bookmarkFolder.url.indexOf('/',bookmarkFolder.url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp;&nbsp<a style='display:none' title='Copy'><img src='images/copy.png'/></a>&nbsp;<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp;<!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
 	}
 }
 
@@ -113,6 +113,13 @@ function handleClick(event) {
             alert("Edit this bookmark");
             break;
         }
+        else if (element.nodeName === "A" && /Copy/.test(element.getAttribute('title'))) {
+            // The user clicked on a <a> or clicked on an element inside <a> with title "Copy"
+            copyURL = element.parentElement.getElementsByTagName('input')[0].getAttribute('value');
+            
+            document.execCommand("Copy");
+            break;
+        }
         else if (element.nodeName === "A"){
             // Open in new tab; Clicked on bookmark link
             chrome.tabs.create({url: element.getAttribute('href'), active: false});
@@ -132,7 +139,7 @@ function handleMouseEnter(event) {
         if (element.nodeName === "LI") {
             // The user hovered on a <li> or an element inside <li>
             element.getElementsByTagName('a')[1].style.display = 'initial';
-            //element.getElementsByTagName('a')[2].style.display = 'initial';
+            element.getElementsByTagName('a')[2].style.display = 'initial';
             break;
         }
 
@@ -151,13 +158,35 @@ function handleMouseLeave(event) {
         if (element.nodeName === "LI") {
             // The user hovered on a <li> or an element inside <li>
             element.getElementsByTagName('a')[1].style.display = 'none';
-            //element.getElementsByTagName('a')[2].style.display = 'none';
+            element.getElementsByTagName('a')[2].style.display = 'none';
             break;
         }
 
         element = element.parentNode;
     }
 }
+
+function displayNotification(message){
+    var elem = document.getElementById('notification');
+    elem.innerHTML = message;
+    elem.style.display = "block";
+    window.setTimeout(removeNotification, 1000);
+}
+
+function removeNotification(){
+    var elem = document.getElementById('notification');
+    elem.innerHTML = "";
+    elem.style.display = "none";
+}
+
+function copyToClipboard(e){
+    e.clipboardData.setData('text/plain', copyURL);
+    e.preventDefault(); // We want our data, not data from any selection, to be written to the clipboard
+    
+    // Display popup message
+    displayNotification("Copied!");
+};
+
 window.addEventListener('load', function(evt) {
 
    	document.getElementById('btnOpenBookmarks').addEventListener('click', openBookmarks);
@@ -171,4 +200,6 @@ window.addEventListener('load', function(evt) {
     document.addEventListener("mouseover", handleMouseEnter, false);
     
     document.addEventListener("mouseout", handleMouseLeave, false);
+    
+    document.addEventListener('copy', copyToClipboard);
 });

@@ -48,6 +48,20 @@
             #footer>div{
                 float:left
             }
+            
+            #notification{
+                display: none;
+                z-index: 1000;
+                position: fixed;
+                bottom: 0px;
+                width : 100%;
+                background: black;
+                color: white;
+                padding: 5px;
+                border-radius: 5px;
+                text-align: center;
+                font-size: medium;
+            }
         </style>
     </head>
     <body>
@@ -64,5 +78,6 @@
             <button id="btnDeleteBookmarks">Delete</button>
             <button id="btnDeselectBookmarks">Unselect All</button>
         </div>
+        <div id="notification"></div>
     </body>
 </html>

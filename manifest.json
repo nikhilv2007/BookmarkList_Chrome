@@ -4,7 +4,8 @@
 	"version":"0.0.5",
 	"permissions": [ 
 		"bookmarks",
-        "tabs"
+        "tabs",
+        "clipboardWrite"
 	],
 	"description":"Lists Bookmarks",
 	"icons":{
