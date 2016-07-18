@@ -92,6 +92,8 @@ function deselectBookmarks(){
         if(inputElements[i].checked)
             inputElements[i].checked = !inputElements[i].checked;
     }
+    
+    document.getElementById('footer').style.display = "none";
 }
 
 function editBookmark(){
@@ -200,6 +202,16 @@ function copyToClipboard(e){
     displayNotification("Copied!");
 };
 
+function handleFooter(){
+    var inputElements = document.getElementsByTagName('input'), checkedCount = 0;
+    for(var i=0; i< inputElements.length; i++){
+        if(inputElements[i].checked)
+            checkedCount++;
+    }
+    
+    document.getElementById('footer').style.display = checkedCount > 0 ? "inline":"none";
+}
+
 window.addEventListener('load', function(evt) {
 
    	document.getElementById('btnOpenBookmarks').addEventListener('click', openBookmarks);
@@ -215,4 +227,6 @@ window.addEventListener('load', function(evt) {
     document.addEventListener("mouseout", handleMouseLeave, false);
     
     document.addEventListener('copy', copyToClipboard);
+    
+    document.addEventListener('change', handleFooter);
 });

@@ -37,7 +37,7 @@ a > img:hover{
 #footer{
     position: fixed;
     bottom: 0px;
-    display: inline;
+    display: none;
     background-color:azure;
     width: 100%;
 }
