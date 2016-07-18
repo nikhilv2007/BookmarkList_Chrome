@@ -30,8 +30,14 @@ function getBookmarks(bookmarkFolder){
 				
 	}
 	else if(bookmarkFolder.url != undefined){
-		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><img src='http://www.google.com/s2/favicons?domain="+bookmarkFolder.url.slice(bookmarkFolder.url.indexOf('//'), bookmarkFolder.url.indexOf('/',bookmarkFolder.url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp;&nbsp<a style='display:none' title='Copy'><img src='images/copy.png'/></a>&nbsp;<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp;<!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
+		popupContent += "<li data-id='"+bookmarkFolder.id+"'><input type='checkbox' value='"+bookmarkFolder.url+"'/><img src='http://www.google.com/s2/favicons?domain="+bookmarkFolder.url.slice(bookmarkFolder.url.indexOf('//'), bookmarkFolder.url.indexOf('/',bookmarkFolder.url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a href='"+ bookmarkFolder.url +"' title='" +bookmarkFolder.url+ "'>" +bookmarkFolder.title+ "</a>&nbsp;&nbsp<a style='display:none' title='Copy'><img src='images/copy.png'/></a>&nbsp;<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp;<a style='display:none' title='Added on - "+getReadableDate(bookmarkFolder.dateAdded)+"'><img class='info' src='images/info.png'/></a><!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
 	}
+}
+
+function getReadableDate(miliSeconds){
+    var date = new Date(miliSeconds);
+    return date.toDateString();
+    //return date.toString("MMM dd, yyyy");
 }
 
 function openBookmarks(){
@@ -120,6 +126,11 @@ function handleClick(event) {
             document.execCommand("Copy");
             break;
         }
+        else if (element.nodeName === "A" && /Created/.test(element.getAttribute('title'))) {
+            // The user clicked on a <a> or clicked on an element inside <a> with title attribute containing "Created"
+            
+            break;
+        }
         else if (element.nodeName === "A"){
             // Open in new tab; Clicked on bookmark link
             chrome.tabs.create({url: element.getAttribute('href'), active: false});
@@ -140,6 +151,7 @@ function handleMouseEnter(event) {
             // The user hovered on a <li> or an element inside <li>
             element.getElementsByTagName('a')[1].style.display = 'initial';
             element.getElementsByTagName('a')[2].style.display = 'initial';
+            element.getElementsByTagName('a')[3].style.display = 'initial';
             break;
         }
 
@@ -159,6 +171,7 @@ function handleMouseLeave(event) {
             // The user hovered on a <li> or an element inside <li>
             element.getElementsByTagName('a')[1].style.display = 'none';
             element.getElementsByTagName('a')[2].style.display = 'none';
+            element.getElementsByTagName('a')[3].style.display = 'none';
             break;
         }
 
