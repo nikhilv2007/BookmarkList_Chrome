@@ -126,7 +126,7 @@ function handleClick(event) {
             document.execCommand("Copy");
             break;
         }
-        else if (element.nodeName === "A" && /Created/.test(element.getAttribute('title'))) {
+        else if (element.nodeName === "A" && /Added/.test(element.getAttribute('title'))) {
             // The user clicked on a <a> or clicked on an element inside <a> with title attribute containing "Created"
             
             break;
