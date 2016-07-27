@@ -21,11 +21,11 @@ function getBookmarks(bookmarkFolder){
 			popupContent += "<ul><img src='images/Folder-icon.png'/> " +bookmarkFolder.title+ "</ul>";
 		}
 		else{
-			popupContent += "<ul><img src='images/Folder-icon.png'/> " +bookmarkFolder.title;
+			popupContent += "<details open><summary><img src='images/Folder-icon.png'/> " +bookmarkFolder.title +"</summary><ul>";
 			for(var i=0;i<bookmarkFolder.children.length;i++){
 				getBookmarks(bookmarkFolder.children[i]);		
 			}
-			popupContent += "</ul>";
+			popupContent += "</ul></details>";
 		}				
 				
 	}

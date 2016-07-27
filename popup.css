@@ -5,6 +5,10 @@ body{
     margin:0px
 }
 
+summary:hover{
+    cursor: pointer;
+}
+
 ul {
     list-style: none;
     padding-left:0.5em;
