@@ -40,6 +40,49 @@ function getReadableDate(miliSeconds){
     //return date.toString("MMM dd, yyyy");
 }
 
+function searchBookmarks(){
+    var searchText = document.getElementById('searchBookmarks').value.trim();
+    
+    if(searchText.length > 2){
+        //console.log(searchText);
+
+        // Search the bookmark tree
+        chrome.bookmarks.search( searchText, function (searchResults){
+            //console.log(searchResults);
+            
+            var bookmarkResultsHtml = "";
+            
+            if (searchResults.length > 0){
+                bookmarkResultsHtml += "<ul>";
+
+                for(var index in searchResults){
+                    bookmarkResultsHtml += "<li data-id='"+searchResults[index].id+"'><input type='checkbox' value='"+searchResults[index].url+"'/><img src='http://www.google.com/s2/favicons?domain="+searchResults[index].url.slice(searchResults[index].url.indexOf('//'), searchResults[index].url.indexOf('/',searchResults[index].url.indexOf('//')+2))+"' height='16' width='16'/>&nbsp<a href='"+ searchResults[index].url +"' title='" +searchResults[index].url+ "'>" +searchResults[index].title+ "</a>&nbsp;&nbsp<a style='display:none' title='Copy'><img src='images/copy.png'/></a>&nbsp;<a style='display:none' title='Delete'><img src='images/delete.png'/></a>&nbsp;<a style='display:none' title='Added on - "+getReadableDate(searchResults[index].dateAdded)+"'><img class='info' src='images/info.png'/></a><!--a style='display:none' title='Edit'><img src='images/edit.png'/></a--></li>";
+                }
+
+                bookmarkResultsHtml += "</ul>";                
+            }
+            
+            document.getElementById('searchSummary').innerHTML = searchResults.length +" "+ (searchResults.length > 1 ? "results":"result") +" found";
+            document.getElementById('searchResults').innerHTML = bookmarkResultsHtml;
+
+            document.getElementById('content').style.display = 'none';
+                
+        });
+    }
+    else if(searchText.length > 0 && searchText.length < 3){
+        document.getElementById('content').style.display = 'none';
+        
+        document.getElementById('searchSummary').innerHTML = 'Enter atleast 3 characters..';        
+        document.getElementById('searchResults').innerHTML = "";
+    }
+    else{
+        document.getElementById('searchSummary').innerHTML = "";
+        document.getElementById('searchResults').innerHTML = "";
+        
+        document.getElementById('content').style.display = 'block';
+    }
+}
+
 function openBookmarks(){
     // Get list of URLs checked
     var checkedURLs = [];
@@ -214,6 +257,8 @@ function handleFooter(){
 
 window.addEventListener('load', function(evt) {
 
+    document.getElementById('searchBookmarks').addEventListener('input', searchBookmarks);
+    
    	document.getElementById('btnOpenBookmarks').addEventListener('click', openBookmarks);
    	
    	document.getElementById('btnDeleteBookmarks').addEventListener('click', deleteBookmarks);

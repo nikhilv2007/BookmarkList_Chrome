@@ -5,6 +5,22 @@ body{
     margin:0px
 }
 
+input#searchBookmarks{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid black;
+    height:24px;
+}
+
+div#searchSummary{    
+    margin: 5px;
+    font-size: medium;
+}
+
+div#content > ul{
+    margin: auto;
+}
+
 summary:hover{
     cursor: pointer;
 }
