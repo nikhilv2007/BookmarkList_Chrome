@@ -1,5 +1,5 @@
 
-var popupContent = "", copyURL = "";
+var popupContent = "", copyURL = "", checkedCount = 0;
 document.addEventListener('DOMContentLoaded', function () {
   	chrome.bookmarks.getTree(function (bookmarkTreeNode){
   	
@@ -34,10 +34,11 @@ function getBookmarks(bookmarkFolder){
 	}
 }
 
+// Return date in format dd MMM yyyy
 function getReadableDate(miliSeconds){
     var date = new Date(miliSeconds);
-    return date.toDateString();
-    //return date.toString("MMM dd, yyyy");
+    date = date.toDateString().split(' ');
+    return date[2] +" "+ date[1] +" "+ date[3];
 }
 
 function searchBookmarks(){
@@ -74,12 +75,18 @@ function searchBookmarks(){
         
         document.getElementById('searchSummary').innerHTML = 'Enter atleast 3 characters..';        
         document.getElementById('searchResults').innerHTML = "";
+        
+        // Uncheck any checked bookmarks before searching
+        deselectBookmarks();
     }
     else{
         document.getElementById('searchSummary').innerHTML = "";
         document.getElementById('searchResults').innerHTML = "";
         
         document.getElementById('content').style.display = 'block';
+        
+        // Uncheck any checked search bookmarks
+        deselectBookmarks();
     }
 }
 
@@ -109,19 +116,20 @@ function openBookmarks(){
             break;
     }
     
-    // Deselect checkboxes
-    deselectBookmarks();
+    resetCheckedCount();
 }
 
 function deleteBookmarks(){
     if (confirm("Are you sure deleting bookmark(s)")){
         var inputElements = document.getElementsByTagName('input');
-        for(var i=0; i< inputElements.length; i++){
+        for(var i = inputElements.length-1; i >= 0; i--){
             if(inputElements[i].checked){
                 deleteBookmark(inputElements[i].parentElement.getAttribute('data-id'));
                 inputElements[i].parentElement.parentElement.removeChild(inputElements[i].parentElement);
             }
         }
+        
+        resetCheckedCount();
     }
 }
 
@@ -136,7 +144,13 @@ function deselectBookmarks(){
             inputElements[i].checked = !inputElements[i].checked;
     }
     
-    document.getElementById('footer').style.display = "none";
+    resetCheckedCount();
+}
+
+function resetCheckedCount(){
+    checkedCount = 0;
+    document.getElementById('footer').style.display = 'none';
+    
 }
 
 function editBookmark(){
@@ -245,13 +259,22 @@ function copyToClipboard(e){
     displayNotification("Copied!");
 };
 
-function handleFooter(){
-    var inputElements = document.getElementsByTagName('input'), checkedCount = 0;
-    for(var i=0; i< inputElements.length; i++){
-        if(inputElements[i].checked)
-            checkedCount++;
-    }
+function handleChange(event){
+    //console.log("Change event");
     
+    var element = event.target;
+    if(element.nodeName === 'INPUT'){
+        if(element.checked)
+            checkedCount ++;
+        else
+            checkedCount --;
+        
+        displayFooter();
+    }
+}
+
+// Display footer only if atleast 1 checkbox is checked
+function displayFooter(){    
     document.getElementById('footer').style.display = checkedCount > 0 ? "inline":"none";
 }
 
@@ -273,5 +296,5 @@ window.addEventListener('load', function(evt) {
     
     document.addEventListener('copy', copyToClipboard);
     
-    document.addEventListener('change', handleFooter);
+    document.addEventListener('change', handleChange);
 });
