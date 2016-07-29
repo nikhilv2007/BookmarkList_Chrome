@@ -9,7 +9,8 @@ input#searchBookmarks{
     width: 100%;
     border-radius: 5px;
     border: 1px solid black;
-    height:24px;
+    height: 24px;
+    padding-left: 10px;
 }
 
 div#searchSummary{    

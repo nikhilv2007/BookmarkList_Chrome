@@ -9,15 +9,13 @@
 	],
 	"description":"Lists Bookmarks",
 	"icons":{
-		"16": "images/bookmarkie32.png",
+		"16": "images/b32.png",
         "48": "images/bookmarkie48.png",
     	"128": "images/bookmarkie128.png"
-	},
-	
+	},	
 	"browser_action":{
 		"default_icon":"images/b32.png",
 		"default_title":"Bookmarky",
 		"default_popup":"popup.html"
 	}
-
 }
