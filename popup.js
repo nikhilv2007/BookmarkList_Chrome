@@ -263,7 +263,8 @@ function handleChange(event){
     //console.log("Change event");
     
     var element = event.target;
-    if(element.nodeName === 'INPUT'){
+    if(element.nodeName === 'INPUT' && element.getAttribute('type') == 'checkbox'){
+        //console.log('checkbox change event');
         if(element.checked)
             checkedCount ++;
         else
